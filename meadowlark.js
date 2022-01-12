@@ -1,5 +1,6 @@
 import express from "express";
 import { engine } from "express-handlebars";
+import { getFortune } from "lib/fortunes.js";
 
 const app = express();
 
@@ -11,21 +12,12 @@ app.engine("handlebars", engine());
 app.set("view engine", "handlebars");
 app.set("views", "./views");
 
-const fortunes = [
-  "Победи свои страхи, или они победят тебя.",
-  "Рекам нужны истоки.",
-  "Не бойся неведомого.",
-  "Тебя ждет приятный сюрприз.",
-  "Будь проще везде, где только можно.",
-];
-
 app.get("/", (req, res) => {
   res.render("home");
 });
 
 app.get("/about", (req, res) => {
-  const randomFortune = fortunes[Math.floor(Math.random() * fortunes.length)];
-  res.render("about", { fortune: randomFortune });
+  res.render("about", { fortune: getFortune() });
 });
 
 app.use((req, res) => {
